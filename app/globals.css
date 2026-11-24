@@ -1,26 +1,118 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Dark-first. Light theme is applied via [data-theme="light"]. */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #0b0d12;
+  --foreground: #e6e8ee;
+  --card: #12151c;
+  --card-2: #171b24;
+  --border: #242936;
+  --muted: #8b93a7;
+  --muted-fg: #a3abbd;
+  --primary: #7c9cff;
+  --primary-fg: #0b0d12;
+  --accent: #1c2233;
+  --success: #3ecf8e;
+  --warn: #f5b942;
+  --danger: #ff6b6b;
+  --code-bg: #0f1218;
+  --tok-keyword: #c792ea;
+  --tok-string: #a5e075;
+  --tok-number: #f78c6c;
+  --tok-comment: #6b7388;
+  --tok-fn: #82aaff;
+  --tok-prop: #89ddff;
+  --tok-type: #ffcb6b;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --background: #fafbfc;
+  --foreground: #1a1d26;
+  --card: #ffffff;
+  --card-2: #f3f5f9;
+  --border: #e2e6ee;
+  --muted: #6b7388;
+  --muted-fg: #4b5265;
+  --primary: #3355e0;
+  --primary-fg: #ffffff;
+  --accent: #e9eeff;
+  --success: #0f9d63;
+  --warn: #b7791f;
+  --danger: #d63b3b;
+  --code-bg: #f4f6fa;
+  --tok-keyword: #8a3fc2;
+  --tok-string: #2e7d32;
+  --tok-number: #c4501f;
+  --tok-comment: #8a91a5;
+  --tok-fn: #2557c9;
+  --tok-prop: #00718f;
+  --tok-type: #9a6b00;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-2: var(--card-2);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-fg: var(--muted-fg);
+  --color-primary: var(--primary);
+  --color-primary-fg: var(--primary-fg);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+  --color-code: var(--code-bg);
+  --font-sans: var(--font-geist-sans), var(--font-bangla), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  line-height: 1.75; /* Bangla needs generous line height */
+}
+
+/* syntax tokens (lezer classHighlighter) */
+.tok-keyword, .tok-operatorKeyword, .tok-modifier, .tok-controlKeyword, .tok-definitionKeyword { color: var(--tok-keyword); }
+.tok-string, .tok-string2 { color: var(--tok-string); }
+.tok-number, .tok-bool, .tok-atom, .tok-null { color: var(--tok-number); }
+.tok-comment, .tok-lineComment, .tok-blockComment { color: var(--tok-comment); font-style: italic; }
+.tok-variableName.tok-definition, .tok-function { color: var(--tok-fn); }
+.tok-propertyName { color: var(--tok-prop); }
+.tok-typeName, .tok-className { color: var(--tok-type); }
+
+.prose-bn p { margin: 0 0 1rem; }
+.prose-bn strong { color: var(--foreground); font-weight: 650; }
+.inline-code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: var(--card-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.05em 0.4em;
+}
+
+details > summary { cursor: pointer; list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+
+.cm-editor { height: 100%; background: var(--code-bg); }
+.cm-editor.cm-focused { outline: none; }
+.cm-scroller { font-family: var(--font-mono) !important; line-height: 1.65; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
